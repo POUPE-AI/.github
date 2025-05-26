@@ -1,0 +1,68 @@
+@startuml
+
+class report {
+  + hash: string <<PK>>
+  + accountId: long
+  + startDate: date
+  + endDate: date
+  
+  + textAnalysis: string
+  + suggestion: string
+  
+  + created_at: datetime
+  + updated_at: datetime
+}
+
+class overview_report {
+  + balance: float
+  + totalIncome: float
+  + totalExpense: float
+  + categories: category[5]
+}
+
+class income_report {
+  + totalIncome: float
+  
+  + categories: category[5]
+  + mainIncomes: transaction[5]
+}
+
+class expense_report {
+  + totalExpense: float
+  
+  + categories: category[5]
+  + mainExpenses: transaction[5]
+}
+
+class insight_report {
+  + balance: float
+  + insight: string
+}
+
+class transaction {
+  description: string
+  transaction_date: datetime
+  value: float
+  category_name: string
+}
+
+income_report "1" -- "*" transaction : mainIncomes
+expense_report "1" -- "*" transaction : mainIncomes
+
+
+class category  {
+    + name: string
+    + balance: float
+}
+
+overview_report "1" -- "*" category : categories
+income_report "1" -- "*" category : categories
+expense_report "1" -- "*" category : categories
+
+
+report <|-- overview_report
+report <|-- income_report
+report <|-- expense_report
+report <|-- insight_report
+
+@enduml
