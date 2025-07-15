@@ -1,0 +1,52 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: finances-service
+    url: http://finances-service:8000
+    routes:
+      - name: finances-all-routes
+        paths:
+          - /finances
+        strip_path: true
+        methods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: iss
+          claims_to_verify:
+            - exp
+      - name: jwt-header-injector
+
+  - name: reports-service
+    url: http://reports-service:5000
+    routes:
+      - name: reports-all-routes
+        paths:
+          - /reports
+        strip_path: true
+        methods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: iss
+          claims_to_verify:
+            - exp
+      - name: jwt-header-injector
+
+consumers:
+  - username: keycloak-consumer
+    jwt_secrets:
+      - key: http://localhost:8080/realms/poupe-ai
+        algorithm: RS256
+        rsa_public_key: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA019hSHiiar+ABXScYA2H
+          BKiafj7tZsoDnzvPnCbl5wigUl6YCXbcSkG5UcHRmqr0/CwdEB6FJ/R4yJplvaa0
+          Lww5ml7W+zeS1gOu/PIW12MAMZrSVFzm3w5MMYOQPcEaUXZCuZd7CYeyfUsYIWS+
+          55d18okcV0fdKLt6K/dSfc96Y8UX1NGFU3eWz+owqAvCe1nGPlohyYdUV8DiPQVm
+          n+05oAS8nbWvYc1BCgss6DsUPvRpKIA38CYnUMGdh90ERyYsJneb8d2CHWd2cGQd
+          VvU6fiOAFbXzNd9x9humWWeA4wwXOrJg35Xq0QJ6xX1oQwMvTqvPhzzo8VjXRuch
+          2wIDAQAB
+          -----END PUBLIC KEY-----
+

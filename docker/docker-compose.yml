@@ -1,0 +1,142 @@
+services:
+  # Keycloak DB
+  keycloak-db:
+    image: postgres:latest
+    container_name: keycloak-db
+    environment:
+      POSTGRES_DB: ${KEYCLOAK_DB}
+      POSTGRES_USER: ${KEYCLOAK_DB_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${KEYCLOAK_DB_USER}", "-d", "${KEYCLOAK_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - poupe-ai-network
+
+  # Keycloak
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: >
+      start-dev 
+      --spi-theme-cache-themes=false 
+      --spi-theme-cache-templates=false
+      --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_URL_DATABASE: ${KEYCLOAK_DB}
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_HTTP_ENABLED: 'true'
+      KC_PROXY: 'edge'
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/realms/import/poupe-ai-realm.json:/opt/keycloak/data/import/poupe-ai-realm.json
+      - ./keycloak/themes:/opt/keycloak/themes
+    depends_on:
+      - keycloak-db
+    networks:
+      - poupe-ai-network
+
+  # Kong Gateway
+  kong:
+    image: kong:latest
+    container_name: kong-gateway
+    environment:
+      KONG_DATABASE: off
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+      KONG_DECLARATIVE_CONFIG: /opt/kong/kong.yaml
+      KONG_PLUGINS: bundled,jwt-header-injector
+    volumes:
+      - ./kong/kong.yaml:/opt/kong/kong.yaml
+      - ./kong/plugins/jwt-header-injector:/usr/local/share/lua/5.1/kong/plugins/jwt-header-injector
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+      - "8443:8443"
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: on-failure
+    networks:
+      - poupe-ai-network
+
+  # Finances Service DB
+  finances-db:
+    image: postgres:latest
+    container_name: finances-db
+    environment:
+      POSTGRES_DB: ${FINANCE_DB}	
+      POSTGRES_USER: ${FINANCE_DB_USER}
+      POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
+    volumes:
+      - finances_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${FINANCE_DB_USER}", "-d", "${FINANCE_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - poupe-ai-network
+
+  # Finances Service
+  finances-service:
+    build:
+      context: ../finance_service/poupeai-finance-service
+      dockerfile: compose/local/django/Dockerfile
+    container_name: finances-service
+    environment:
+      POSTGRES_DB: ${FINANCE_DB}
+      POSTGRES_USER: ${FINANCE_DB_USER}
+      POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
+      POSTGRES_HOST: finances-db
+      POSTGRES_PORT: 5432
+      BUILD_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings.local
+      DEBUG: 'true'
+      USE_DOCKER: 'yes'
+    command: /start
+    depends_on:
+      finances-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - poupe-ai-network
+
+  # Reports Service
+  reports-service:
+    build:
+      context: ../report_service/poupeai-report-service
+      dockerfile: Dockerfile
+    container_name: reports-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - poupe-ai-network
+
+volumes:
+  keycloak_data:
+  finances_data:
+
+networks:
+  poupe-ai-network:
+    driver: bridge 
