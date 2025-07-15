@@ -11,7 +11,9 @@ function JwtHeaderInjector:access(conf)
     local _, _, token = authorization:find("Bearer%s+(.+)")
     if token then
       local jwt, err = jwt_parser:new(token)
-      if not err and jwt.claims and jwt.claims.sub then
+      if err then
+        kong.log.warn("Failed to parse JWT: ", err)
+      elseif jwt.claims and jwt.claims.sub then
         kong.service.request.set_header("X-User-Sub", jwt.claims.sub)
       end
     end
