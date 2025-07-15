@@ -121,6 +121,12 @@ input[type="text"]:focus, input[type="password"]:focus {
     background-color: #E05A0D;
 }
 
+#kc-form-buttons {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 a {
     color: #F9690E;
     text-decoration: none;
