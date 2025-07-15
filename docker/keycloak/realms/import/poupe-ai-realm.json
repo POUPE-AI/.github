@@ -2250,7 +2250,11 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "pt-BR"
+  ],
+  "defaultLocale": "pt-BR",
   "authenticationFlows": [
     {
       "id": "7d63172e-74f3-46ae-8b7e-56f27f85ae66",
