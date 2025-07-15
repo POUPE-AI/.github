@@ -1,10 +1,11 @@
+local jwt_parser = require "kong.plugins.jwt.jwt_parser"
+
 local JwtHeaderInjector = {
   PRIORITY = 1000,
   VERSION = "1.0.0",
 }
 
 function JwtHeaderInjector:access(conf)
-  local jwt_parser = require "kong.plugins.jwt.jwt_parser"
   local authorization = kong.request.get_header("authorization")
   if authorization then
     local _, _, token = authorization:find("Bearer%s+(.+)")
