@@ -26,6 +26,9 @@ services:
       --spi-theme-cache-themes=false 
       --spi-theme-cache-templates=false
       --import-realm
+      --log-console-output=json
+      --log-level=org.keycloak.events:DEBUG
+      --spi-events-listener-jboss-logging-enabled=true
     environment:
       KC_DB: postgres
       KC_DB_URL_HOST: keycloak-db
