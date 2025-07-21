@@ -25,6 +25,10 @@
     # Google OAuth2 (Opcional)
     GOOGLE_CLIENT_ID=client_id
     GOOGLE_CLIENT_SECRET=client_secret
+
+    # Configurações do Grafana
+    GF_SECURITY_ADMIN_USER=admin
+    GF_SECURITY_ADMIN_PASSWORD=admin
     ```
 
 2. **Configure o Google OAuth2 (Opcional)**
@@ -55,6 +59,8 @@
     
     - **Finances Service**: Acessível via Kong em `http://localhost:8000/finances`
     - **Reports Service**: Acessível via Kong em `http://localhost:8000/reports`
+
+    - **Grafana (Logs)**: `http://localhost:3000`
 
 ## Estrutura
 
