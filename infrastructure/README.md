@@ -82,7 +82,7 @@ Com o valor do `x5c` copiado, use o `openssl` no seu terminal para extrair a cha
 
 #### **Passo 3: Atualize o Arquivo de Configuração do Kong**
 
-1.  Abra o arquivo `docker/kong/kong.yaml`.
+1.  Abra o arquivo `infrastructure/kong/kong.yaml`.
 
 2.  Localize a seção `consumers` e, dentro dela, o campo `rsa_public_key`.
 
