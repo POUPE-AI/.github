@@ -29,6 +29,21 @@
     # Configurações do Grafana
     GF_SECURITY_ADMIN_USER=admin
     GF_SECURITY_ADMIN_PASSWORD=admin
+
+    # RabbitMQ Message Broker
+    RABBITMQ_USER=user
+    RABBITMQ_PASSWORD=password
+
+    # Redis Cache
+    REDIS_PASSWORD=password
+
+    # Email credentials for notification service
+    MAIL_USERNAME=seu-usuario-smtp
+    MAIL_PASSWORD=sua-senha-smtp
+    MAIL_FROM="poupeai.notificacoes@gmail.com"
+    MAIL_FROM_NAME="Poupe.AI"
+    MAIL_PORT=587
+    MAIL_SERVER="smtp-relay.brevo.com"
     ```
 
 2. **Obtenha e Configure a Chave Pública RSA do Keycloak**
@@ -121,8 +136,11 @@ Após salvar o arquivo `kong.yaml` com a nova chave, o Kong estará pronto para 
     
     - **Finances Service**: Acessível via Kong em `http://localhost:8000/finances`
     - **Reports Service**: Acessível via Kong em `http://localhost:8000/reports`
+    - **Notification Service**: Em execução, mas sem UI. Os logs estão disponíveis no Grafana.
 
     - **Grafana (Logs)**: `http://localhost:3000`
+
+    - **RabbitMQ Management**: `http://localhost:15672` (Use as credenciais do .env)
 
 ## Estrutura
 
@@ -131,4 +149,7 @@ Após salvar o arquivo `kong.yaml` com a nova chave, o Kong estará pronto para 
 - `/keycloak/themes`: Contém os temas customizados para as telas de login e registro do Poupe.AI.
 - `/keycloak/realms`: Contém as configurações do realm "poupe-ai" que é importado na inicialização.
 - `/kong/kong.yaml`: Contém a configuração declarativa do Kong.
-- `/kong/plugins`: Contém o plugin customizado "jwt-header-injector" para o Kong. 
+- `/kong/plugins`: Contém o plugin customizado "jwt-header-injector" para o Kong.
+- `/logging/grafana/provisioning/datasources/loki-datasource.yaml`: Contém a configuração do Loki como Data source do Grafana.
+- `/logging/loki/loki-config.yaml`: Contém a configuração do Loki.
+- `/logging/promtail/promtail-config.yaml`: Contém a configuração do Promtail.

@@ -238,7 +238,6 @@ services:
       - poupe-ai-network
     environment:
       - DEBUG=True
-      - PYTHONUNBUFFERED=1
       # RabbitMQ Connection
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
