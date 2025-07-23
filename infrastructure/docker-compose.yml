@@ -1,3 +1,5 @@
+name: poupe-ai
+
 services:
   # Keycloak DB
   keycloak-db:
@@ -104,7 +106,7 @@ services:
   # Finances Service
   finances-service:
     build:
-      context: ../finance_service/poupeai-finance-service
+      context: ./services/poupeai-finance-service
       dockerfile: compose/local/django/Dockerfile
     container_name: finances-service
     environment:
@@ -128,7 +130,7 @@ services:
   # Reports Service
   reports-service:
     build:
-      context: ../report_service/poupeai-report-service
+      context: ./services/poupeai-report-service
       dockerfile: Dockerfile
     container_name: reports-service
     environment:
@@ -226,7 +228,7 @@ services:
   # Notification Service
   notification-service:
     build:
-      context: ../notification_service/poupeai-notification-service
+      context: ./services/poupeai-notification-service
       dockerfile: Dockerfile
     container_name: notification-service
     depends_on:
