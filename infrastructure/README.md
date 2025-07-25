@@ -30,6 +30,9 @@
     GF_SECURITY_ADMIN_USER=admin
     GF_SECURITY_ADMIN_PASSWORD=admin
 
+    # Configurações do Poupe.AI Backend Cliente do Keycloak
+    POUPE_AI_BACKEND_CLIENT_SECRET=poupe_ai_backend_client_secret
+
     # RabbitMQ Message Broker
     RABBITMQ_USER=user
     RABBITMQ_PASSWORD=password
