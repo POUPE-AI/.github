@@ -24,8 +24,8 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     command: >
-      start-dev 
-      --spi-theme-cache-themes=false 
+      start-dev
+      --spi-theme-cache-themes=false
       --spi-theme-cache-templates=false
       --import-realm
       --log-console-output=json
@@ -38,11 +38,14 @@ services:
       KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
       KC_HTTP_ENABLED: 'true'
-      KC_PROXY: 'edge'
+      KC_PROXY: 'none'
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      POUPE_AI_BACKEND_CLIENT_SECRET: ${POUPE_AI_BACKEND_CLIENT_SECRET}
     ports:
       - "8080:8080"
     volumes:
@@ -90,7 +93,7 @@ services:
     image: postgres:latest
     container_name: finances-db
     environment:
-      POSTGRES_DB: ${FINANCE_DB}	
+      POSTGRES_DB: ${FINANCE_DB}
       POSTGRES_USER: ${FINANCE_DB_USER}
       POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
     volumes:
@@ -117,9 +120,132 @@ services:
       POSTGRES_PORT: 5432
       BUILD_ENV: local
       DJANGO_SETTINGS_MODULE: config.settings.local
+      DATABASE_URL: postgres://${FINANCE_DB_USER}:${FINANCE_DB_PASSWORD}@finances-db:5432/${FINANCE_DB}
+      KEYCLOAK_ISSUER: ${KEYCLOAK_ISSUER}
+      KEYCLOAK_JWKS_URL: ${KEYCLOAK_JWKS_URL}
+      REDIS_URL: ${REDIS_URL}
+      KEYCLOAK_SERVER_UR: ${KEYCLOAK_SERVER_UR}
+      KEYCLOAK_REALM_NAME: "poupe-ai"
+      KEYCLOAK_ADMIN_CLIENT_ID: "poupe-ai-backend"
+      KEYCLOAK_ADMIN_CLIENT_SECRET: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
       DEBUG: 'true'
       USE_DOCKER: 'yes'
     command: /start
+    ports:
+      - "8005:8000"
+    depends_on:
+      finances-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - poupe-ai-network
+  
+  redis-finance:
+    image: redis:7-alpine
+    container_name: redis-finance
+    command: redis-server
+    volumes:
+      - redis_finance_data:/data
+    networks:
+      - poupe-ai-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  # Worker do Celery para o Finances Service
+  finances-celery-worker:
+    build:
+      context: ./services/poupeai-finance-service
+      dockerfile: compose/local/django/Dockerfile
+    container_name: finances-celery-worker
+    environment:
+      POSTGRES_DB: ${FINANCE_DB}
+      POSTGRES_USER: ${FINANCE_DB_USER}
+      POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
+      POSTGRES_HOST: finances-db
+      POSTGRES_PORT: 5432
+      BUILD_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings.local
+      DATABASE_URL: postgres://${FINANCE_DB_USER}:${FINANCE_DB_PASSWORD}@finances-db:5432/${FINANCE_DB}
+      KEYCLOAK_ISSUER: ${KEYCLOAK_ISSUER}
+      KEYCLOAK_JWKS_URL: ${KEYCLOAK_JWKS_URL}
+      REDIS_URL: ${REDIS_URL}
+      KEYCLOAK_SERVER_UR: ${KEYCLOAK_SERVER_UR}
+      KEYCLOAK_REALM_NAME: "poupe-ai"
+      KEYCLOAK_ADMIN_CLIENT_ID: "poupe-ai-backend"
+      KEYCLOAK_ADMIN_CLIENT_SECRET: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
+      DEBUG: 'true'
+      USE_DOCKER: 'yes'
+    command: /start-celeryworker
+    depends_on:
+      finances-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - poupe-ai-network
+  
+  # Celery Beat para o Finances Service
+  finances-celery-beat:
+    build:
+      context: ./services/poupeai-finance-service
+      dockerfile: compose/local/django/Dockerfile
+    container_name: finances-celery-beat
+    environment:
+      POSTGRES_DB: ${FINANCE_DB}
+      POSTGRES_USER: ${FINANCE_DB_USER}
+      POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
+      POSTGRES_HOST: finances-db
+      POSTGRES_PORT: 5432
+      BUILD_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings.local
+      DATABASE_URL: postgres://${FINANCE_DB_USER}:${FINANCE_DB_PASSWORD}@finances-db:5432/${FINANCE_DB}
+      KEYCLOAK_ISSUER: ${KEYCLOAK_ISSUER}
+      KEYCLOAK_JWKS_URL: ${KEYCLOAK_JWKS_URL}
+      REDIS_URL: ${REDIS_URL}
+      KEYCLOAK_SERVER_UR: ${KEYCLOAK_SERVER_UR}
+      KEYCLOAK_REALM_NAME: "poupe-ai"
+      KEYCLOAK_ADMIN_CLIENT_ID: "poupe-ai-backend"
+      KEYCLOAK_ADMIN_CLIENT_SECRET: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
+      DEBUG: 'true'
+      USE_DOCKER: 'yes'
+    command: /start-celerybeat
+    depends_on:
+      finances-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - poupe-ai-network
+  
+  finances-flower:
+    build:
+      context: ./services/poupeai-finance-service
+      dockerfile: compose/local/django/Dockerfile
+    container_name: finances-flower
+    environment:
+      POSTGRES_DB: ${FINANCE_DB}
+      POSTGRES_USER: ${FINANCE_DB_USER}
+      POSTGRES_PASSWORD: ${FINANCE_DB_PASSWORD}
+      POSTGRES_HOST: finances-db
+      POSTGRES_PORT: 5432
+      BUILD_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings.local
+      DATABASE_URL: postgres://${FINANCE_DB_USER}:${FINANCE_DB_PASSWORD}@finances-db:5432/${FINANCE_DB}
+      KEYCLOAK_ISSUER: ${KEYCLOAK_ISSUER}
+      KEYCLOAK_JWKS_URL: ${KEYCLOAK_JWKS_URL}
+      REDIS_URL: ${REDIS_URL}
+      KEYCLOAK_SERVER_UR: ${KEYCLOAK_SERVER_UR}
+      KEYCLOAK_REALM_NAME: "poupe-ai"
+      KEYCLOAK_ADMIN_CLIENT_ID: "poupe-ai-backend"
+      KEYCLOAK_ADMIN_CLIENT_SECRET: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
+      CELERY_FLOWER_USER: ${CELERY_FLOWER_USER}
+      CELERY_FLOWER_PASSWORD: ${CELERY_FLOWER_PASSWORD}
+      DEBUG: 'true'
+      USE_DOCKER: 'yes'
+    ports:
+      - '5555:5555'
+    command: /start-flower
     depends_on:
       finances-db:
         condition: service_healthy
@@ -137,7 +263,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
     networks:
       - poupe-ai-network
-  
+
   # Grafana Loki
   loki:
     image: grafana/loki:latest
@@ -187,7 +313,7 @@ services:
       - loki
     networks:
       - poupe-ai-logging-network
-  
+
   # RabbitMQ Message Broker
   rabbitmq:
     image: rabbitmq:3-management
@@ -207,16 +333,14 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  
+
   # Redis Cache
-  redis:
+  redis-notification:
     image: redis:7-alpine
-    container_name: redis-poupeai
+    container_name: redis-notification
     command: redis-server --requirepass ${REDIS_PASSWORD}
-    ports:
-      - "6379:6379"
     volumes:
-      - redis_data:/data
+      - redis_notification_data:/data
     networks:
       - poupe-ai-network
     healthcheck:
@@ -224,7 +348,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  
+
   # Notification Service
   notification-service:
     build:
@@ -234,7 +358,7 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-      redis:
+      redis-notification:
         condition: service_healthy
     networks:
       - poupe-ai-network
@@ -256,7 +380,7 @@ services:
       - RABBITMQ_QUEUE_DLQ=notification_events.dlq
       - RABBITMQ_RETRY_DELAY_MS=10000
       # Redis
-      - REDIS_HOST=redis
+      - REDIS_HOST=redis-notification
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       # Email
@@ -275,7 +399,8 @@ volumes:
   promtail_wal:
   grafana_data:
   rabbitmq_data:
-  redis_data:
+  redis_notification_data:
+  redis_finance_data:
 
 networks:
   poupe-ai-network:
