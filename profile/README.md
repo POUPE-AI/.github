@@ -4,7 +4,7 @@ O **Poupe.AI**, é um aplicativo de gestão financeira pessoal que utiliza intel
 
 ## Documentação
 
-**[Wiki](../../wiki)** - Documentação e informações sobre o sistema.
+**[Wiki](https://github.com/POUPE-AI/.github/wiki)** - Documentação e informações sobre o sistema.
 
 ## Desenvolvido por
 
