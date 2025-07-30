@@ -24,7 +24,7 @@ Abaixo estão os principais repositórios:
 | **[poupeai-finance-service](https://github.com/POUPE-AI/poupeai-finance-service)** | Serviço principal (backend) que gerencia finanças, contas, cartões e transações. Construído com Django. |
 | **[poupeai-report-service](https://github.com/POUPE-AI/poupeai-report-service)** | Serviço de backend que gera relatórios e análises com IA. Construído com .NET. |
 | **[poupeai-notification-service](https://github.com/POUPE-AI/poupeai-notification-service)** | Serviço de backend para envio de notificações assíncronas por e-mail. Construído com FastAPI. |
-| **[poupeai-mobile-app](https://github.com/POUPE-AI/poupeai-mobile-app)** | O aplicativo móvel (frontend) para o usuário final. Construído com React Native e Expo. |
+| **[poupeai-mobile](https://github.com/POUPE-AI/poupeai-mobile)** | O aplicativo móvel (frontend) para o usuário final. Construído com React Native e Expo. |
 
 ---
 
