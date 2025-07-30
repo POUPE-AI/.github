@@ -9,7 +9,6 @@
     <a href="https://github.com/POUPE-AI/.github/wiki">
       <img src="https://img.shields.io/badge/documenta%C3%A7%C3%A3o-leia%20a%20wiki-blue?style=for-the-badge" alt="Documentação">
     </a>
-    <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge" alt="Status do Projeto">
   </p>
 </div>
 
