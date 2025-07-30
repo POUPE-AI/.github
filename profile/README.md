@@ -48,11 +48,3 @@ Nosso projeto utiliza um conjunto moderno de tecnologias:
 ## Documentação
 
 Toda a documentação técnica e de usuário do projeto, incluindo arquitetura e guias de instalação está em nossa **[Wiki](https://github.com/POUPE-AI/.github/wiki)**.
-
----
-
-## Desenvolvido por
-
-- Eudivan de Melo
-- Erisvaldo Balbino
-- Francisco Paulino
