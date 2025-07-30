@@ -17,7 +17,7 @@
 
 ## Nossos Repositórios
 
-Abaixo estão os principais repositórios da organização:
+Abaixo estão os principais repositórios:
 
 | Repositório | Descrição |
 | --- | --- |
