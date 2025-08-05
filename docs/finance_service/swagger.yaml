@@ -1,0 +1,2753 @@
+openapi: 3.0.3
+info:
+  title: Finance Service API
+  version: 0.0.1
+  description: Finance Service API documentation
+paths:
+  /api/v1/bank-accounts/:
+    get:
+      operationId: v1_bank_accounts_list
+      description: Retrieve all bank accounts for the authenticated user
+      summary: List bank accounts
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Bank Accounts
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBankAccountList'
+          description: ''
+    post:
+      operationId: v1_bank_accounts_create
+      description: Create a new bank account for the user
+      summary: Create bank account
+      tags:
+      - Bank Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccountRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+  /api/v1/bank-accounts/{id}/:
+    get:
+      operationId: v1_bank_accounts_retrieve
+      description: Retrieve details of a specific bank account
+      summary: Get bank account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Bank Account.
+        required: true
+      tags:
+      - Bank Accounts
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    put:
+      operationId: v1_bank_accounts_update
+      description: Update all fields of a bank account
+      summary: Update bank account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Bank Account.
+        required: true
+      tags:
+      - Bank Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccountUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccountUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccountUpdateRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountUpdate'
+          description: ''
+    patch:
+      operationId: v1_bank_accounts_partial_update
+      description: Update specific fields of a bank account
+      summary: Partially update bank account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Bank Account.
+        required: true
+      tags:
+      - Bank Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccountUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccountUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccountUpdateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountUpdate'
+          description: ''
+    delete:
+      operationId: v1_bank_accounts_destroy
+      description: Delete a specific bank account
+      summary: Delete bank account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Bank Account.
+        required: true
+      tags:
+      - Bank Accounts
+      responses:
+        '204':
+          description: No response body
+  /api/v1/budgets/:
+    get:
+      operationId: v1_budgets_list
+      description: Retrieve all budgets for the authenticated user
+      summary: List all budgets
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Budgets
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBudgetList'
+          description: ''
+    post:
+      operationId: v1_budgets_create
+      description: Create a new budget for the authenticated user
+      summary: Create a new budget
+      tags:
+      - Budgets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBudgetRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateBudgetRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateBudgetRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBudget'
+          description: ''
+  /api/v1/budgets/{id}/:
+    get:
+      operationId: v1_budgets_retrieve
+      description: Retrieve detailed information about a specific budget
+      summary: Get budget details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Budget.
+        required: true
+      tags:
+      - Budgets
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+          description: ''
+    put:
+      operationId: v1_budgets_update
+      description: Update all fields of a specific budget
+      summary: Update budget
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Budget.
+        required: true
+      tags:
+      - Budgets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BudgetRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BudgetRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+          description: ''
+    patch:
+      operationId: v1_budgets_partial_update
+      description: Update specific fields of a budget
+      summary: Partially update budget
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Budget.
+        required: true
+      tags:
+      - Budgets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBudgetRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBudgetRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBudgetRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+          description: ''
+    delete:
+      operationId: v1_budgets_destroy
+      description: Delete a specific budget
+      summary: Delete budget
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Budget.
+        required: true
+      tags:
+      - Budgets
+      responses:
+        '204':
+          description: No response body
+  /api/v1/categories/:
+    get:
+      operationId: v1_categories_list
+      description: Get all categories for the authenticated user
+      summary: List categories
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Categories
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryList'
+          description: ''
+    post:
+      operationId: v1_categories_create
+      description: Create a new transaction category
+      summary: Create category
+      tags:
+      - Categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCategory'
+          description: ''
+  /api/v1/categories/{id}/:
+    get:
+      operationId: v1_categories_retrieve
+      description: Retrieve details of a specific category
+      summary: Get category
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - Categories
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    put:
+      operationId: v1_categories_update
+      description: Update all fields of a category
+      summary: Update category
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - Categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    patch:
+      operationId: v1_categories_partial_update
+      description: Update specific fields of a category
+      summary: Partially update category
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - Categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    delete:
+      operationId: v1_categories_destroy
+      description: Delete a specific category
+      summary: Delete category
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - Categories
+      responses:
+        '204':
+          description: No response body
+  /api/v1/credit-cards/:
+    get:
+      operationId: v1_credit_cards_list
+      description: Retrieve all credit cards for the authenticated user
+      summary: List credit cards
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Credit Cards
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCreditCardList'
+          description: ''
+    post:
+      operationId: v1_credit_cards_create
+      description: Create a new credit card for the authenticated user
+      summary: Create a new credit card
+      tags:
+      - Credit Cards
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+          description: ''
+  /api/v1/credit-cards/{id}/invoices/:
+    get:
+      operationId: v1_credit_cards_invoices_list
+      description: Retrieve all invoices for a specific credit card
+      summary: List credit card invoices
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Invoices
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedInvoiceList'
+          description: ''
+  /api/v1/credit-cards/{id}/invoices/{id}/:
+    get:
+      operationId: v1_credit_cards_invoices_retrieve
+      description: Retrieve detailed information about a specific invoice
+      summary: Get invoice details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Invoices
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+          description: ''
+    delete:
+      operationId: v1_credit_cards_invoices_destroy
+      description: Delete a specific invoice for the authenticated user
+      summary: Delete an invoice
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Invoices
+      responses:
+        '204':
+          description: No response body
+  /api/v1/credit-cards/{id}/invoices/{id}/payment/:
+    post:
+      operationId: v1_credit_cards_invoices_payment_create
+      description: Registers the payment for a specific invoice.
+      summary: Pay an invoice
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Invoices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoicePaymentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvoicePaymentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvoicePaymentRequest'
+        required: true
+      responses:
+        '204':
+          description: No response body
+  /api/v1/credit-cards/{id}/invoices/{id}/reopen/:
+    post:
+      operationId: v1_credit_cards_invoices_reopen_create
+      description: Reverts a paid invoice back to the open state.
+      summary: Reopen a paid invoice
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Invoices
+      responses:
+        '204':
+          description: No response body
+  /api/v1/credit-cards/{id}/:
+    get:
+      operationId: v1_credit_cards_retrieve
+      description: Retrieve detailed information about a specific credit card
+      summary: Get credit card details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Credit Card.
+        required: true
+      tags:
+      - Credit Cards
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+          description: ''
+    put:
+      operationId: v1_credit_cards_update
+      description: Update all fields of a specific credit card
+      summary: Update a credit card
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Credit Card.
+        required: true
+      tags:
+      - Credit Cards
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+          description: ''
+    patch:
+      operationId: v1_credit_cards_partial_update
+      description: Update specific fields of a credit card
+      summary: Partial update a credit card
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Credit Card.
+        required: true
+      tags:
+      - Credit Cards
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCreditCardRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCreditCardRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCreditCardRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+          description: ''
+    delete:
+      operationId: v1_credit_cards_destroy
+      description: Delete a specific credit card for the authenticated user
+      summary: Delete a credit card
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Credit Card.
+        required: true
+      tags:
+      - Credit Cards
+      responses:
+        '204':
+          description: No response body
+  /api/v1/dashboard/:
+    get:
+      operationId: v1_dashboard_retrieve
+      description: Retrieves dashboard data for the specified period.
+      summary: Dashboard data
+      parameters:
+      - in: query
+        name: period
+        schema:
+          type: string
+        description: Period in 'yyyy-mm' format
+      tags:
+      - Dashboard
+      responses:
+        '200':
+          description: No response body
+  /api/v1/goals/:
+    get:
+      operationId: v1_goals_list
+      description: Retrieve all goals for the authenticated user
+      summary: List all goals
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Goals
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedGoalListList'
+          description: ''
+    post:
+      operationId: v1_goals_create
+      description: Create a new financial goal for the authenticated user
+      summary: Create a new goal
+      tags:
+      - Goals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GoalCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GoalCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalCreate'
+          description: ''
+  /api/v1/goals/{id}/deposits/:
+    post:
+      operationId: v1_goals_deposits_create
+      description: Add a deposit to a specific goal
+      summary: Add deposit to goal
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Goal ID
+        required: true
+      tags:
+      - Goals Deposits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalDepositRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GoalDepositRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GoalDepositRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalDeposit'
+          description: ''
+  /api/v1/goals/{id}/:
+    get:
+      operationId: v1_goals_retrieve
+      description: Retrieve detailed information about a specific goal
+      summary: Get goal details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Goal.
+        required: true
+      tags:
+      - Goals
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalDetail'
+          description: ''
+    put:
+      operationId: v1_goals_update
+      description: Update all fields of a specific goal
+      summary: Update goal
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Goal.
+        required: true
+      tags:
+      - Goals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GoalUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GoalUpdateRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalUpdate'
+          description: ''
+    patch:
+      operationId: v1_goals_partial_update
+      description: Update specific fields of a goal
+      summary: Partially update goal
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Goal.
+        required: true
+      tags:
+      - Goals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGoalUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGoalUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGoalUpdateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalUpdate'
+          description: ''
+    delete:
+      operationId: v1_goals_destroy
+      description: Delete a specific goal
+      summary: Delete goal
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Goal.
+        required: true
+      tags:
+      - Goals
+      responses:
+        '204':
+          description: No response body
+  /api/v1/profile/me/:
+    get:
+      operationId: v1_profile_me_retrieve
+      description: Retrieve the authenticated user profile information
+      summary: Get user profile
+      tags:
+      - User Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Authentication credentials were not provided.
+          description: ''
+  /api/v1/profile/me/deactivate/:
+    patch:
+      operationId: v1_profile_me_deactivate_partial_update
+      description: Deactivate the authenticated user account and schedule for deletion
+      summary: Deactivate user account
+      tags:
+      - User Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Profile successfully deactivated. Permanent deletion
+                      is scheduled.
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: User profile is already deactivated or has scheduled
+                      deletion.
+          description: ''
+  /api/v1/profile/me/reactivate/:
+    patch:
+      operationId: v1_profile_me_reactivate_partial_update
+      description: Reactivate a previously deactivated user account and cancel scheduled
+        deletion
+      summary: Reactivate user account
+      tags:
+      - User Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Profile successfully reactivated. Scheduled deletion
+                      has been canceled.
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: User profile is already active.
+          description: ''
+  /api/v1/schema/:
+    get:
+      operationId: v1_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - v1
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/transactions/:
+    get:
+      operationId: v1_transactions_list
+      description: Retrieve all transactions for the authenticated user
+      summary: List all transactions
+      parameters:
+      - in: query
+        name: purchase_group_uuid
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: category
+        schema:
+          type: integer
+      - in: query
+        name: source_type
+        schema:
+          type: string
+          enum:
+          - BANK_ACCOUNT
+          - CREDIT_CARD
+        description: |-
+          * `BANK_ACCOUNT` - Bank Account
+          * `CREDIT_CARD` - Credit Card
+      - in: query
+        name: type
+        schema:
+          type: string
+          title: Tipo
+          enum:
+          - expense
+          - income
+        description: |-
+          * `expense` - Despesa
+          * `income` - Receita
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Transactions
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionListList'
+          description: ''
+    post:
+      operationId: v1_transactions_create
+      description: Create a new transaction for the authenticated user
+      summary: Create a new transaction
+      tags:
+      - Transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionCreateUpdate'
+          description: ''
+  /api/v1/transactions/{id}/:
+    get:
+      operationId: v1_transactions_retrieve
+      description: Retrieve a specific transaction for the authenticated user
+      summary: Get a transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Transaction.
+        required: true
+      tags:
+      - Transactions
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetail'
+          description: ''
+    put:
+      operationId: v1_transactions_update
+      description: Update a specific transaction for the authenticated user
+      summary: Update a transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Transaction.
+        required: true
+      tags:
+      - Transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateUpdateRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionCreateUpdate'
+          description: ''
+    patch:
+      operationId: v1_transactions_partial_update
+      description: Update a specific transaction for the authenticated user
+      summary: Partial update a transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Transaction.
+        required: true
+      tags:
+      - Transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionCreateUpdateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionCreateUpdate'
+          description: ''
+    delete:
+      operationId: v1_transactions_destroy
+      description: Delete a specific transaction for the authenticated user
+      summary: Delete a transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Transaction.
+        required: true
+      tags:
+      - Transactions
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 50
+        description:
+          type: string
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_default:
+          type: boolean
+        current_balance:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - current_balance
+      - id
+      - name
+      - updated_at
+    BankAccountRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 50
+        description:
+          type: string
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_default:
+          type: boolean
+      required:
+      - name
+    BankAccountUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 50
+        description:
+          type: string
+        is_default:
+          type: boolean
+      required:
+      - id
+      - name
+    BankAccountUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 50
+        description:
+          type: string
+        is_default:
+          type: boolean
+      required:
+      - name
+    BrandEnum:
+      enum:
+      - VISA
+      - MASTERCARD
+      - AMEX
+      - ELO
+      - HIPERCARD
+      type: string
+      description: |-
+        * `VISA` - Visa
+        * `MASTERCARD` - Mastercard
+        * `AMEX` - American Express
+        * `ELO` - Elo
+        * `HIPERCARD` - Hipercard
+    Budget:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        category:
+          type: integer
+        profile:
+          type: string
+          format: uuid
+          description: Keycloak sub (subject) identifier
+          readOnly: true
+        name:
+          type: string
+          title: Budget Name
+          maxLength: 100
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        actual_amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - actual_amount
+      - amount
+      - category
+      - created_at
+      - id
+      - name
+      - profile
+      - updated_at
+    BudgetRequest:
+      type: object
+      properties:
+        category:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          title: Budget Name
+          maxLength: 100
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        actual_amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+      required:
+      - actual_amount
+      - amount
+      - category
+      - name
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Category Name
+          maxLength: 30
+        color_hex:
+          type: string
+          title: Category Color
+          maxLength: 7
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          readOnly: true
+          title: Category Type
+        profile:
+          type: string
+          format: uuid
+          description: Keycloak sub (subject) identifier
+          readOnly: true
+          title: User
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - profile
+      - type
+      - updated_at
+    CategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Category Name
+          maxLength: 30
+        color_hex:
+          type: string
+          minLength: 1
+          title: Category Color
+          maxLength: 7
+      required:
+      - name
+    CreateBudget:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        category:
+          type: integer
+        name:
+          type: string
+          title: Budget Name
+          maxLength: 100
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+      required:
+      - amount
+      - category
+      - id
+      - name
+    CreateBudgetRequest:
+      type: object
+      properties:
+        category:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          title: Budget Name
+          maxLength: 100
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+      required:
+      - amount
+      - category
+      - name
+    CreateCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Category Name
+          maxLength: 30
+        color_hex:
+          type: string
+          title: Category Color
+          maxLength: 7
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          title: Category Type
+        profile:
+          type: string
+          format: uuid
+          description: Keycloak sub (subject) identifier
+          readOnly: true
+          title: User
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - profile
+      - type
+      - updated_at
+    CreateCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Category Name
+          maxLength: 30
+        color_hex:
+          type: string
+          minLength: 1
+          title: Category Color
+          maxLength: 7
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          title: Category Type
+      required:
+      - name
+      - type
+    CreditCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 50
+        credit_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        used_credit_limit:
+          type: string
+          readOnly: true
+        available_credit_limit:
+          type: string
+          readOnly: true
+        additional_info:
+          type: string
+          nullable: true
+        closing_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        due_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        brand:
+          $ref: '#/components/schemas/BrandEnum'
+        brand_display:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - available_credit_limit
+      - brand
+      - brand_display
+      - closing_day
+      - created_at
+      - credit_limit
+      - due_day
+      - id
+      - name
+      - updated_at
+      - used_credit_limit
+    CreditCardRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 50
+        credit_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        additional_info:
+          type: string
+          nullable: true
+        closing_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        due_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        brand:
+          $ref: '#/components/schemas/BrandEnum'
+      required:
+      - brand
+      - closing_day
+      - credit_limit
+      - due_day
+      - name
+    GoalCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          title: Goal Color
+          maxLength: 7
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        target_at:
+          type: string
+          format: date
+      required:
+      - id
+      - name
+      - target_at
+    GoalCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          minLength: 1
+          title: Goal Color
+          maxLength: 7
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        target_at:
+          type: string
+          format: date
+      required:
+      - name
+      - target_at
+    GoalDeposit:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        deposit_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        deposit_at:
+          type: string
+          format: date
+        note:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - deposit_at
+      - id
+    GoalDepositRequest:
+      type: object
+      properties:
+        deposit_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        deposit_at:
+          type: string
+          format: date
+        note:
+          type: string
+          nullable: true
+      required:
+      - deposit_at
+    GoalDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          title: Goal Color
+          maxLength: 7
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        current_balance:
+          type: string
+          readOnly: true
+        percentage_completed:
+          type: string
+          readOnly: true
+        target_at:
+          type: string
+          format: date
+        is_completed:
+          type: boolean
+          readOnly: true
+        completed_at:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        deposits:
+          type: string
+          readOnly: true
+      required:
+      - completed_at
+      - current_balance
+      - deposits
+      - id
+      - initial_balance
+      - is_completed
+      - name
+      - percentage_completed
+      - target_at
+    GoalList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          title: Goal Color
+          maxLength: 7
+        initial_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        current_balance:
+          type: string
+          readOnly: true
+        percentage_completed:
+          type: string
+          readOnly: true
+        target_at:
+          type: string
+          format: date
+        is_completed:
+          type: boolean
+          readOnly: true
+        completed_at:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+      required:
+      - completed_at
+      - current_balance
+      - id
+      - initial_balance
+      - is_completed
+      - name
+      - percentage_completed
+      - target_at
+    GoalUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          title: Goal Color
+          maxLength: 7
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        target_at:
+          type: string
+          format: date
+        is_completed:
+          type: boolean
+          readOnly: true
+        completed_at:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+      required:
+      - completed_at
+      - id
+      - is_completed
+      - name
+      - target_at
+    GoalUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          minLength: 1
+          title: Goal Color
+          maxLength: 7
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        target_at:
+          type: string
+          format: date
+      required:
+      - name
+      - target_at
+    Invoice:
+      type: object
+      description: Serializer for the Invoice model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        credit_card:
+          type: integer
+        month:
+          type: integer
+          maximum: 32767
+          minimum: 1
+        year:
+          type: integer
+          maximum: 32767
+          minimum: 2000
+        due_date:
+          type: string
+          format: date
+        payment_date:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        bank_account:
+          type: integer
+          readOnly: true
+          nullable: true
+        is_paid:
+          type: boolean
+          readOnly: true
+        total_amount:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - bank_account
+      - created_at
+      - credit_card
+      - due_date
+      - id
+      - is_paid
+      - month
+      - payment_date
+      - total_amount
+      - updated_at
+      - year
+    InvoicePaymentRequest:
+      type: object
+      properties:
+        bank_account_id:
+          type: integer
+          writeOnly: true
+        payment_date:
+          type: string
+          format: date
+          writeOnly: true
+      required:
+      - bank_account_id
+      - payment_date
+    PaginatedBankAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+    PaginatedBudgetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Budget'
+    PaginatedCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    PaginatedCreditCardList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreditCard'
+    PaginatedGoalListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoalList'
+    PaginatedInvoiceList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+    PaginatedTransactionListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionList'
+    PatchedBankAccountUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 50
+        description:
+          type: string
+        is_default:
+          type: boolean
+    PatchedBudgetRequest:
+      type: object
+      properties:
+        category:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          title: Budget Name
+          maxLength: 100
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        actual_amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+    PatchedCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Category Name
+          maxLength: 30
+        color_hex:
+          type: string
+          minLength: 1
+          title: Category Color
+          maxLength: 7
+    PatchedCreditCardRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 50
+        credit_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        additional_info:
+          type: string
+          nullable: true
+        closing_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        due_day:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        brand:
+          $ref: '#/components/schemas/BrandEnum'
+    PatchedGoalUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Nome
+          maxLength: 100
+        description:
+          type: string
+        color_hex:
+          type: string
+          minLength: 1
+          title: Goal Color
+          maxLength: 7
+        goal_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        target_at:
+          type: string
+          format: date
+    PatchedTransactionCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating and updating transactions.
+        Delegates complex logic to TransactionService.
+      properties:
+        category:
+          type: integer
+        description:
+          type: string
+          minLength: 1
+          maxLength: 255
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        issue_date:
+          type: string
+          format: date
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        bank_account:
+          type: integer
+          nullable: true
+        credit_card:
+          type: integer
+          nullable: true
+        is_installment:
+          type: boolean
+        installment_number:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        total_installments:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        original_purchase_description:
+          type: string
+          nullable: true
+        original_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 100
+        original_statement_description:
+          type: string
+          nullable: true
+        attachment:
+          type: string
+          nullable: true
+          title: Attachment URL
+          maxLength: 255
+        apply_to_all_installments:
+          type: boolean
+          writeOnly: true
+          default: false
+    Profile:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Keycloak sub (subject) identifier
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        is_deactivated:
+          type: boolean
+          readOnly: true
+        deactivation_scheduled_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - deactivation_scheduled_at
+      - email
+      - first_name
+      - is_deactivated
+      - last_name
+      - updated_at
+      - user_id
+    SourceTypeEnum:
+      enum:
+      - BANK_ACCOUNT
+      - CREDIT_CARD
+      type: string
+      description: |-
+        * `BANK_ACCOUNT` - Bank Account
+        * `CREDIT_CARD` - Credit Card
+    TransactionCreateUpdate:
+      type: object
+      description: |-
+        Serializer for creating and updating transactions.
+        Delegates complex logic to TransactionService.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        category:
+          type: integer
+        description:
+          type: string
+          maxLength: 255
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        issue_date:
+          type: string
+          format: date
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        bank_account:
+          type: integer
+          nullable: true
+        credit_card:
+          type: integer
+          nullable: true
+        is_installment:
+          type: boolean
+        installment_number:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        total_installments:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        original_purchase_description:
+          type: string
+          nullable: true
+        original_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 100
+        original_statement_description:
+          type: string
+          nullable: true
+        attachment:
+          type: string
+          nullable: true
+          title: Attachment URL
+          maxLength: 255
+      required:
+      - amount
+      - category
+      - description
+      - id
+      - issue_date
+      - source_type
+    TransactionCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating and updating transactions.
+        Delegates complex logic to TransactionService.
+      properties:
+        category:
+          type: integer
+        description:
+          type: string
+          minLength: 1
+          maxLength: 255
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        issue_date:
+          type: string
+          format: date
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        bank_account:
+          type: integer
+          nullable: true
+        credit_card:
+          type: integer
+          nullable: true
+        is_installment:
+          type: boolean
+        installment_number:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        total_installments:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        original_purchase_description:
+          type: string
+          nullable: true
+        original_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 100
+        original_statement_description:
+          type: string
+          nullable: true
+        attachment:
+          type: string
+          nullable: true
+          title: Attachment URL
+          maxLength: 255
+        apply_to_all_installments:
+          type: boolean
+          writeOnly: true
+          default: false
+      required:
+      - amount
+      - category
+      - description
+      - issue_date
+      - source_type
+    TransactionDetail:
+      type: object
+      description: Serializer for retrieving detailed transaction information.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profile:
+          type: string
+          format: uuid
+          description: Keycloak sub (subject) identifier
+          readOnly: true
+        category:
+          type: integer
+        description:
+          type: string
+          maxLength: 255
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        issue_date:
+          type: string
+          format: date
+        type:
+          type: string
+          readOnly: true
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        bank_account:
+          type: integer
+          readOnly: true
+          nullable: true
+        credit_card:
+          type: integer
+          readOnly: true
+          nullable: true
+        is_installment:
+          type: boolean
+        installment_number:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        total_installments:
+          type: integer
+          maximum: 24
+          minimum: 1
+          nullable: true
+        purchase_group_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        original_purchase_description:
+          type: string
+          nullable: true
+        invoice:
+          type: integer
+          readOnly: true
+          nullable: true
+        original_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 100
+        original_statement_description:
+          type: string
+          nullable: true
+        attachment:
+          type: string
+          nullable: true
+          title: Attachment URL
+          maxLength: 255
+        status:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        category_type:
+          type: string
+          readOnly: true
+      required:
+      - amount
+      - bank_account
+      - category
+      - category_type
+      - created_at
+      - credit_card
+      - description
+      - id
+      - invoice
+      - issue_date
+      - profile
+      - purchase_group_uuid
+      - source_type
+      - status
+      - type
+      - updated_at
+    TransactionList:
+      type: object
+      description: Serializer for listing transactions, showing essential fields.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          maxLength: 255
+        amount:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        issue_date:
+          type: string
+          format: date
+        type:
+          type: string
+          readOnly: true
+        source_type:
+          $ref: '#/components/schemas/SourceTypeEnum'
+        category:
+          type: integer
+        status:
+          type: string
+          readOnly: true
+        bank_account:
+          type: integer
+          nullable: true
+        credit_card:
+          type: integer
+          nullable: true
+      required:
+      - amount
+      - category
+      - description
+      - id
+      - issue_date
+      - source_type
+      - status
+      - type
+    TypeEnum:
+      enum:
+      - expense
+      - income
+      type: string
+      description: |-
+        * `expense` - Despesa
+        * `income` - Receita
+tags:
+- name: Authentication
+  description: Authentication endpoints
+- name: User Management
+  description: User profile and account management endpoints
+- name: Categories
+  description: Categories management endpoints
+- name: Bank Accounts
+  description: Bank account management endpoints
+- name: Credit Cards
+  description: Credit card management endpoints
+- name: Invoices
+  description: Credit card invoices management endpoints
+- name: Goals
+  description: Goals management endpoints
+- name: Goals Deposits
+  description: Goals deposits endpoint
+- name: Transactions
+  description: Financial transaction management endpoints
+- name: Budgets
+  description: Budget management endpoints

@@ -1,0 +1,377 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "PoupeAI Report Service API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/v1": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/reports/overview": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Gerar relatório financeiro geral consolidado",
+        "description": "Esse endpoint gera e retorna um relatório financeiro completo para o usuário autenticado, baseado em suas receitas e despesas registradas. A resposta inclui um resumo textual, valores totais, previsões financeiras para os próximos meses e sugestões automáticas fornecidas por uma IA.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/expense": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Gerar relatório de despesa",
+        "description": "Esse endpoint gera e retorna um relatório financeiro das despesas do usuário autenticado. A resposta inclui a soma das despesas, lista de com as 5 categorias que mais têm despesas, tendência para os próximos meses e sugestões geradas pela IA.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/income": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Gerar relatório de receita",
+        "description": "Esse endpoint gera e retorna um relatório financeiro das receitas do usuário autenticado. A resposta inclui a soma das receitas, o período do mês que mais tem receita, tendência para os próximos meses e sugestões geradas pela IA.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/category": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Gerar relatório financeiro por categoria",
+        "description": "Esse endpoint gera e retorna um relatório financeiro por categoria para o usuário autenticado. A resposta inclui a soma das receitas e despesas, o saldo total, a tendência para os próximos meses e sugestões geradas pela IA.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/insights": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Gerar relatório com insights personalizadas",
+        "parameters": [
+          {
+            "name": "insightText",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/savings/estimate": {
+      "post": {
+        "tags": [
+          "Savings"
+        ],
+        "summary": "Calcular economia estimada",
+        "description": "Calcula a economia estimada comparando o período atual com o período anterior com base nas datas das transações. Suporta comparações mensais, semanais e anuais. Parâmetros de consulta: model (gemini|deepseek, padrão: gemini), comparisonType (monthly|weekly|yearly, padrão: monthly)",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "gemini"
+            }
+          },
+          {
+            "name": "comparisonType",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "monthly"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionsData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID da transação.",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição da transação.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "description": "Valor da transação.",
+            "format": "double"
+          },
+          "date": {
+            "type": "string",
+            "description": "Data da transação.",
+            "format": "date-time"
+          },
+          "category": {
+            "type": "string",
+            "description": "Nome da categoria da transação.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo da transação ('Receita', 'Despesa').",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionsData": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "ID da conta para a qual as transações serão buscadas.",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Data de início para filtrar as transações.",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Data de fim para filtrar as transações.",
+            "format": "date"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            },
+            "description": "Lista de transações a serem processadas.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Insira seu token JWT Bearer no campo abaixo.",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
